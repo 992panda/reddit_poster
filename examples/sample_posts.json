@@ -1,0 +1,15 @@
+[
+  {
+    "subreddit": "test",
+    "title": "My First Automated Post",
+    "content": "This is a test post created using the Reddit Posting Tool. Please ignore.",
+    "flair": "Test",
+    "delay": 90
+  },
+  {
+    "subreddit": "test",
+    "title": "Another Test Post",
+    "content": "This is another test post. The tool supports multiple posts with different delays.",
+    "delay": 120
+  }
+]

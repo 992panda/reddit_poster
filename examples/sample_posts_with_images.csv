@@ -1,0 +1,6 @@
+subreddit,title,content,flair,delay,url,image_path
+test,"Text Post Example","This is a text post with content.",,90,,
+test,"Link Post Example","","",120,https://www.reddit.com/r/test,
+test,"Image Upload Example","","",150,,/path/to/your/image.jpg
+cats,"Direct Image Upload","","",180,,/path/to/cat_photo.jpg
+aww,"Link to Imgur","","",210,https://imgur.com/cat.jpg,

@@ -40,15 +40,16 @@ python3 reddit_poster.py --gui
 python3 reddit_poster.py --create-samples
 ```
 
-## 🔧 Your .env File is Already Set Up!
+## 🔧 Configure Your .env File
 
-Your `.env` file contains:
+Your `.env` file needs to be configured with your Reddit API credentials:
 ```
-client id = JZEkt9r7fPtXvC1eT_Bcnw
-secret = OAYJngiOyI9AVV8UwVyNZOTV8Eur-g
+CLIENT_ID=your_client_id_here
+CLIENT_SECRET=your_client_secret_here
+REDDIT_USERNAME=your_reddit_username
 ```
 
-✅ **Perfect!** Your Reddit API credentials are already configured.
+⚠️ **Important:** You need to add your own Reddit API credentials to the .env file.
 
 ## 🚀 Ready to Use!
 

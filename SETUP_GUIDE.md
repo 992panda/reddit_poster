@@ -20,8 +20,8 @@
 
 3. **Get Your Credentials:**
    - After creating, you'll see your app
-   - **Client ID:** The string under your app name (looks like: `JZEkt9r7fPtXvC1eT_Bcnw`)
-   - **Client Secret:** The "secret" field (looks like: `OAYJngiOyI9AVV8UwVyNZOTV8Eur-g`)
+   - **Client ID:** The string under your app name (14 character string)
+   - **Client Secret:** The "secret" field (longer string of characters)
 
 ### **Step 2: Configure Your .env File**
 
@@ -35,8 +35,8 @@ REDDIT_USERNAME=YOUR_REDDIT_USERNAME
 
 **Example:**
 ```bash
-CLIENT_ID=JZEkt9r7fPtXvC1eT_Bcnw
-CLIENT_SECRET=OAYJngiOyI9AVV8UwVyNZOTV8Eur-g
+CLIENT_ID=your_actual_client_id
+CLIENT_SECRET=your_actual_client_secret
 REDDIT_USERNAME=YourRedditUsername
 ```
 
@@ -75,16 +75,16 @@ python3 reddit_poster.py --gui
 ### **User A Setup:**
 ```bash
 # .env file for User A
-CLIENT_ID=UserA_ClientID_Here
-CLIENT_SECRET=UserA_ClientSecret_Here
+CLIENT_ID=user_a_client_id
+CLIENT_SECRET=user_a_client_secret
 REDDIT_USERNAME=UserA_RedditName
 ```
 
 ### **User B Setup:**
 ```bash
 # .env file for User B  
-CLIENT_ID=UserB_ClientID_Here
-CLIENT_SECRET=UserB_ClientSecret_Here
+CLIENT_ID=user_b_client_id
+CLIENT_SECRET=user_b_client_secret
 REDDIT_USERNAME=UserB_RedditName
 ```
 

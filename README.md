@@ -94,8 +94,8 @@ python3 setup_user.py
 
    **Example:**
    ```bash
-   CLIENT_ID=JZEkt9r7fPtXvC1eT_Bcnw
-   CLIENT_SECRET=OAYJngiOyI9AVV8UwVyNZOTV8Eur-g
+   CLIENT_ID=your_client_id
+   CLIENT_SECRET=your_client_secret
    REDDIT_USERNAME=YourUsername
    ```
 

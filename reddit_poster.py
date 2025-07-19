@@ -300,13 +300,16 @@ class GradioInterface:
         else:
             return f"❌ Post validation failed: {message}"
     
-    def get_subreddit_info(self, subreddit_name: str) -> Tuple[str, str]:
-        """Get subreddit rules and information"""
+    def get_subreddit_flairs(self, subreddit_name: str) -> Tuple[str, str]:
+        """Get available flairs for a subreddit"""
         if not subreddit_name.strip():
             return "❌ Please enter a subreddit name", {}
         
-        if not self.authenticated and not self.poster.reddit:
-            # Try with read-only access
+        # Use authenticated reddit if available for better flair access
+        if self.authenticated and self.poster.reddit:
+            reddit = self.poster.reddit
+        else:
+            # Try with read-only access (limited flair access)
             try:
                 import praw
                 from config import config
@@ -317,8 +320,77 @@ class GradioInterface:
                 )
             except Exception as e:
                 return f"❌ Cannot access Reddit API: {str(e)}", {}
-        else:
+        
+        try:
+            subreddit = reddit.subreddit(subreddit_name.strip())
+            flairs = []
+            
+            # Try to get flair templates first
+            try:
+                link_templates = list(subreddit.flair.link_templates)
+                for template in link_templates:
+                    text = template.get('text', '').strip()
+                    if text:  # Only add flairs with text
+                        flairs.append({
+                            'text': text,
+                            'id': template.get('id', ''),
+                            'mod_only': template.get('mod_only', False),
+                            'source': 'templates'
+                        })
+            except Exception as e:
+                # Fallback: Get flairs from recent posts
+                try:
+                    seen_flairs = set()
+                    for submission in subreddit.hot(limit=50):
+                        if hasattr(submission, 'link_flair_text') and submission.link_flair_text:
+                            flair_text = submission.link_flair_text.strip()
+                            if flair_text and flair_text not in seen_flairs:
+                                seen_flairs.add(flair_text)
+                                flairs.append({
+                                    'text': flair_text,
+                                    'id': 'unknown',
+                                    'mod_only': False,
+                                    'source': 'recent_posts'
+                                })
+                except Exception:
+                    pass
+            
+            if flairs:
+                flair_text = f"🏷️ **Available Flairs ({len(flairs)}):**\n\n"
+                for i, flair in enumerate(flairs[:15], 1):  # Show first 15
+                    mod_indicator = " (Mod Only)" if flair.get('mod_only') else ""
+                    flair_text += f"**{i}.** {flair['text']}{mod_indicator}\n"
+                
+                if len(flairs) > 15:
+                    flair_text += f"\n*...and {len(flairs) - 15} more flairs*"
+                
+                return flair_text, {'flairs': flairs}
+            else:
+                return "🏷️ **Flairs:** No flairs found or flair access restricted", {}
+                
+        except Exception as e:
+            return f"❌ Error fetching flairs: {str(e)}", {}
+    
+    def get_subreddit_info(self, subreddit_name: str) -> Tuple[str, str]:
+        """Get subreddit rules and information"""
+        if not subreddit_name.strip():
+            return "❌ Please enter a subreddit name", {}
+        
+        # Always use authenticated reddit if available for better flair access
+        if self.authenticated and self.poster.reddit:
             reddit = self.poster.reddit
+        else:
+            # Try with read-only access (limited flair access)
+            try:
+                import praw
+                from config import config
+                reddit = praw.Reddit(
+                    client_id=config.CLIENT_ID,
+                    client_secret=config.CLIENT_SECRET,
+                    user_agent=config.USER_AGENT
+                )
+            except Exception as e:
+                return f"❌ Cannot access Reddit API: {str(e)}", {}
         
         try:
             rules_info = self.poster.validator.get_subreddit_rules(reddit, subreddit_name.strip())
@@ -351,7 +423,7 @@ class GradioInterface:
                     info_text += "• Verification may be required\n"
             
             if rules_info.get('available_flairs'):
-                info_text += f"\n**🏷️ Available Flairs:**\n"
+                info_text += f"\n**🏷️ Available Flairs ({len(rules_info['available_flairs'])}):**\n"
                 for flair in rules_info['available_flairs'][:10]:  # Show first 10 flairs
                     flair_text = flair.get('text', 'No text')
                     mod_only = " (Mod Only)" if flair.get('mod_only') else ""
@@ -598,6 +670,7 @@ class GradioInterface:
                         with gr.Column():
                             validate_btn = gr.Button("✅ Validate Post", variant="secondary")
                             rules_btn = gr.Button("📋 Get Subreddit Rules", variant="secondary")
+                            flairs_btn = gr.Button("🏷️ Get Available Flairs", variant="secondary")
                             submit_single_btn = gr.Button("🚀 Submit Post", variant="primary")
                             
                             validation_result = gr.Textbox(
@@ -609,6 +682,12 @@ class GradioInterface:
                             subreddit_info = gr.Markdown(
                                 label="Subreddit Information",
                                 value="Click 'Get Subreddit Rules' to see posting requirements",
+                                visible=True
+                            )
+                            
+                            flair_info = gr.Markdown(
+                                label="Available Flairs",
+                                value="Click 'Get Available Flairs' to see flair options",
                                 visible=True
                             )
                             
@@ -769,6 +848,12 @@ class GradioInterface:
                 fn=self.get_subreddit_info,
                 inputs=[single_subreddit],
                 outputs=[subreddit_info, subreddit_rules_json]
+            )
+            
+            flairs_btn.click(
+                fn=self.get_subreddit_flairs,
+                inputs=[single_subreddit],
+                outputs=[flair_info, gr.State()]
             )
             
             submit_single_btn.click(

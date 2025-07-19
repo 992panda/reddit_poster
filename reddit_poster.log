@@ -232,3 +232,32 @@
 2025-07-18 12:17:29,849 - INFO - ✅ Post 1 SUCCESS: https://reddit.com/r/BlackedMILFs/comments/1m2v9xk/cum_in_pussy/
 2025-07-18 12:17:29,849 - INFO - 🎉 All 1 posts processed!
 2025-07-18 12:17:29,849 - INFO - 📊 BATCH SUMMARY: 1/1 posts successful
+2025-07-19 08:45:34,625 - INFO - HTTP Request: GET http://127.0.0.1:7860/gradio_api/startup-events "HTTP/1.1 200 OK"
+2025-07-19 08:45:34,663 - INFO - HTTP Request: HEAD http://127.0.0.1:7860/ "HTTP/1.1 200 OK"
+2025-07-19 08:45:35,834 - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-07-19 08:45:47,565 - INFO - Successfully authenticated as u/No-Risk3226
+2025-07-19 08:47:08,073 - WARNING - Method 1 - Could not fetch link templates for r/milf: received 403 HTTP response
+2025-07-19 08:47:08,073 - INFO - Trying method 2 for r/milf flairs...
+2025-07-19 08:47:09,507 - INFO - Found 1 flairs from recent posts
+2025-07-19 08:48:14,155 - INFO - Found 12 link flair templates for r/cats
+2025-07-19 08:53:19,028 - INFO - HTTP Request: GET http://127.0.0.1:7860/gradio_api/startup-events "HTTP/1.1 200 OK"
+2025-07-19 08:53:19,044 - INFO - HTTP Request: HEAD http://127.0.0.1:7860/ "HTTP/1.1 200 OK"
+2025-07-19 08:53:19,949 - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-07-19 08:53:27,008 - INFO - Successfully authenticated as u/No-Risk3226
+2025-07-19 08:53:34,263 - INFO - Found 12 link flair templates for r/cats
+2025-07-19 08:56:16,117 - INFO - HTTP Request: GET http://127.0.0.1:7861/gradio_api/startup-events "HTTP/1.1 200 OK"
+2025-07-19 08:56:16,132 - INFO - HTTP Request: HEAD http://127.0.0.1:7861/ "HTTP/1.1 200 OK"
+2025-07-19 08:56:16,941 - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-07-19 08:56:24,841 - INFO - Successfully authenticated as u/No-Risk3226
+2025-07-19 08:56:55,557 - INFO - Found 3 link flair templates for r/PythonLearning
+2025-07-19 08:59:36,232 - INFO - HTTP Request: GET http://127.0.0.1:7861/gradio_api/startup-events "HTTP/1.1 200 OK"
+2025-07-19 08:59:36,247 - INFO - HTTP Request: HEAD http://127.0.0.1:7861/ "HTTP/1.1 200 OK"
+2025-07-19 08:59:37,067 - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-07-19 08:59:52,571 - ERROR - Reddit authentication failed: invalid_grant error processing request
+2025-07-19 09:00:07,959 - ERROR - Reddit authentication failed: invalid_grant error processing request
+2025-07-19 09:07:04,993 - INFO - HTTP Request: GET http://127.0.0.1:7860/gradio_api/startup-events "HTTP/1.1 200 OK"
+2025-07-19 09:07:05,010 - INFO - HTTP Request: HEAD http://127.0.0.1:7860/ "HTTP/1.1 200 OK"
+2025-07-19 09:07:06,763 - INFO - HTTP Request: GET https://api.gradio.app/pkg-version "HTTP/1.1 200 OK"
+2025-07-19 09:07:13,925 - INFO - Successfully authenticated as u/No-Risk3226
+2025-07-19 09:07:27,497 - INFO - Found 3 link flair templates for r/PythonLearning
+2025-07-19 09:07:43,270 - INFO - Found 12 link flair templates for r/cats

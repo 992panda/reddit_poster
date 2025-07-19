@@ -20,7 +20,11 @@ class Config:
         self.setup_safety_settings()
     
     def load_reddit_credentials(self):
-        """Load and validate Reddit API credentials"""
+        """Load and validate Reddit API credentials dynamically"""
+        # Always reload .env file to pick up any changes
+        from dotenv import load_dotenv
+        load_dotenv(override=True)
+        
         self.CLIENT_ID = os.getenv('CLIENT_ID', '').strip()
         self.CLIENT_SECRET = os.getenv('CLIENT_SECRET', '').strip()
         self.USERNAME = os.getenv('REDDIT_USERNAME', '').strip()
@@ -74,7 +78,10 @@ class Config:
         return True
     
     def get_reddit_config(self, password=None):
-        """Get Reddit configuration dictionary for PRAW"""
+        """Get Reddit configuration dictionary for PRAW with dynamic credential loading"""
+        # Reload credentials to pick up any .env changes
+        self.load_reddit_credentials()
+        
         config = {
             'client_id': self.CLIENT_ID,
             'client_secret': self.CLIENT_SECRET,

@@ -121,24 +121,27 @@ class PostValidator:
             
         flair_text = flair_text.strip()
         try:
-            # Method 1: Try exact match
-            for flair_template in subreddit.flair.link_templates:
-                template_text = flair_template.get('flair_text', '')
+            # Method 1: Try to get link flair templates using the correct PRAW method
+            link_templates = list(subreddit.flair.link_templates)
+            
+            # Method 1a: Try exact match using correct attribute names
+            for template in link_templates:
+                template_text = template.get('text', '')
                 if template_text.lower() == flair_text.lower():
-                    flair_id = flair_template.get('flair_template_id')
+                    flair_id = template.get('id')
                     logger.info(f"Found exact flair template ID for '{flair_text}': {flair_id}")
                     return flair_id, None
             
-            # Method 2: Try partial match
-            for flair_template in subreddit.flair.link_templates:
-                template_text = flair_template.get('flair_text', '')
+            # Method 1b: Try partial match using correct attribute names
+            for template in link_templates:
+                template_text = template.get('text', '')
                 if flair_text.lower() in template_text.lower() or template_text.lower() in flair_text.lower():
-                    flair_id = flair_template.get('flair_template_id')
+                    flair_id = template.get('id')
                     logger.info(f"Found partial flair template match for '{flair_text}': {template_text} (ID: {flair_id})")
                     return flair_id, None
                     
         except Exception as e:
-            logger.warning(f"Could not fetch flair templates: {e}")
+            logger.warning(f"Could not fetch link flair templates: {e}")
         
         # Fallback to text
         logger.info(f"Using flair_text directly: '{flair_text}'")
@@ -225,17 +228,25 @@ class PostValidator:
             # Get available flairs - try multiple methods
             flair_list = []
             try:
-                # Method 1: Try link templates
-                for flair in subreddit.flair.link_templates:
+                # Method 1: Try link templates using correct PRAW syntax
+                link_templates = list(subreddit.flair.link_templates)
+                logger.info(f"Found {len(link_templates)} link flair templates for r/{subreddit_name}")
+                
+                for template in link_templates:
                     flair_info = {
-                        'text': flair.get('flair_text', ''),
-                        'id': flair.get('flair_template_id', ''),
-                        'css_class': flair.get('flair_css_class', ''),
-                        'mod_only': flair.get('flair_mod_only', False),
-                        'allowable_content': flair.get('allowable_content', 'all')
+                        'text': template.get('text', ''),
+                        'id': template.get('id', ''),
+                        'css_class': template.get('css_class', ''),
+                        'mod_only': template.get('mod_only', False),
+                        'allowable_content': template.get('allowable_content', 'all'),
+                        'text_editable': template.get('text_editable', False),
+                        'background_color': template.get('background_color', ''),
+                        'text_color': template.get('text_color', ''),
+                        'type': template.get('type', 'text')
                     }
                     if flair_info['text']:  # Only add if has text
                         flair_list.append(flair_info)
+                        
             except Exception as e:
                 logger.warning(f"Method 1 - Could not fetch link templates for r/{subreddit_name}: {e}")
                 
@@ -254,7 +265,10 @@ class PostValidator:
                                     'css_class': getattr(submission, 'link_flair_css_class', ''),
                                     'mod_only': False,
                                     'allowable_content': 'all',
-                                    'source': 'recent_posts'
+                                    'source': 'recent_posts',
+                                    'text_editable': False,
+                                    'background_color': '',
+                                    'text_color': ''
                                 })
                     logger.info(f"Found {len(flair_list)} flairs from recent posts")
                 except Exception as e2:
